@@ -1,13 +1,13 @@
-Reset,Week After Next,Reset
+Reset,Week After Next,Finished
 Reset,Finished,Reset
+Reset,Reset,Missing
 Reset,Reset,Reset
-Reset,Reset,Reset
-Reset,Reset,Reset
+Reset,This Week,Reset
 Skip,Reset,Skip
 Reset,Reset,Reset
 Reset,Skip,Reset
-Reset,Reset,Reset
-Reset,Reset,Reset
+Reset,Reset,Next Week
+Week After Next,Next Week,Missing
 Reset,Reset,Reset
 Reset,Reset,Reset
 Reset,Reset,Reset
