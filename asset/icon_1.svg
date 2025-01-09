@@ -6,12 +6,12 @@
         fill: #fde292;
       }
 
-      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
         stroke: #000;
         stroke-miterlimit: 10;
       }
 
-      .cls-1, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9 {
+      .cls-1, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
         stroke-width: .1px;
       }
 
@@ -29,59 +29,55 @@
       }
 
       .cls-5 {
-        fill: #29abe2;
-      }
-
-      .cls-6 {
         fill: #fff;
       }
 
-      .cls-7 {
+      .cls-6 {
         fill: #799ad3;
       }
 
-      .cls-8 {
+      .cls-7 {
         fill: #77d666;
       }
 
-      .cls-9 {
+      .cls-8 {
         fill: #dadfed;
       }
     </style>
   </defs>
   <g>
-    <rect class="cls-8" x="8.62" y="6.12" width="4.25" height="2"/>
+    <rect class="cls-7" x="8.62" y="6.12" width="4.25" height="2"/>
     <rect class="cls-3" x="8.62" y="8.12" width="4.25" height="2"/>
-    <rect class="cls-8" x="8.62" y="4.12" width="4.25" height="2"/>
-    <rect class="cls-8" x="8.62" y="2.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y=".12" width="4.25" height="2"/>
+    <rect class="cls-7" x="8.62" y="4.12" width="4.25" height="2"/>
+    <rect class="cls-7" x="8.62" y="2.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y=".12" width="4.25" height="2"/>
     <rect class="cls-5" x="8.62" y=".12" width="4.25" height="2"/>
     <rect class="cls-5" x="4.38" y=".12" width="4.25" height="2"/>
     <rect class="cls-3" x="4.38" y="8.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="2.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="2.12" width="4.25" height="2"/>
     <rect class="cls-1" x="8.62" y="10.12" width="4.25" height="2"/>
-    <rect class="cls-7" x="4.38" y="6.12" width="4.25" height="2"/>
-    <rect class="cls-8" x="4.38" y="2.12" width="4.25" height="2"/>
+    <rect class="cls-6" x="4.38" y="6.12" width="4.25" height="2"/>
+    <rect class="cls-7" x="4.38" y="2.12" width="4.25" height="2"/>
     <rect class="cls-1" x="4.38" y="10.12" width="4.25" height="2"/>
     <rect class="cls-4" x="8.62" y="12.12" width="4.25" height="2"/>
     <rect class="cls-4" x="4.38" y="12.12" width="4.25" height="2"/>
-    <rect class="cls-8" x="4.38" y="4.12" width="4.25" height="2"/>
-    <rect class="cls-6" x="12.88" y="14.12" width="4.25" height="2"/>
+    <rect class="cls-7" x="4.38" y="4.12" width="4.25" height="2"/>
+    <rect class="cls-5" x="12.88" y="14.12" width="4.25" height="2"/>
     <rect class="cls-3" x="12.88" y="8.12" width="4.25" height="2"/>
     <rect class="cls-4" x="12.88" y="12.12" width="4.25" height="2"/>
-    <rect class="cls-8" x="12.88" y="6.12" width="4.25" height="2"/>
+    <rect class="cls-7" x="12.88" y="6.12" width="4.25" height="2"/>
     <rect class="cls-1" x="12.88" y="10.12" width="4.25" height="2"/>
     <rect class="cls-5" x="12.88" y=".12" width="4.25" height="2"/>
-    <rect class="cls-7" x="12.88" y="4.12" width="4.25" height="2"/>
-    <rect class="cls-9" x="12.88" y="2.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="4.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="8.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="10.12" width="4.25" height="2"/>
-    <rect class="cls-6" x="8.62" y="14.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="6.12" width="4.25" height="2"/>
-    <rect class="cls-6" x="4.38" y="14.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="14.12" width="4.25" height="2"/>
-    <rect class="cls-6" x=".12" y="12.12" width="4.25" height="2"/>
+    <rect class="cls-6" x="12.88" y="4.12" width="4.25" height="2"/>
+    <rect class="cls-8" x="12.88" y="2.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="4.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="8.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="10.12" width="4.25" height="2"/>
+    <rect class="cls-5" x="8.62" y="14.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="6.12" width="4.25" height="2"/>
+    <rect class="cls-5" x="4.38" y="14.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="14.12" width="4.25" height="2"/>
+    <rect class="cls-5" x=".12" y="12.12" width="4.25" height="2"/>
   </g>
   <rect class="cls-2" x=".12" y=".12" width="17" height="16"/>
   <line class="cls-2" x1=".12" y1="2.12" x2="17.12" y2="2.12"/>
