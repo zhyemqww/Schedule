@@ -37,7 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['E:\\PythonProjects\\Experimental_Projects\\Schedule\\asset\\icon.ico'],
+    icon=['E:\\PythonProjects\\Experimental_Projects\\Schedule\\asset\\icon_1.ico'],
 )
 coll = COLLECT(
     exe,
