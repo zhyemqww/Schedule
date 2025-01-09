@@ -28,8 +28,8 @@ class Passwords(BaseFramelessWindow):
         self.passwords_lineEdit = None
         self.save_push_button = None
 
-        self.setWindowTitle("Passwords")
-        self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon.svg")))
+        self.setWindowTitle("Verification Password")
+        self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon_1.svg")))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.resize(400, 200)
         self.setup_ui()
@@ -40,7 +40,7 @@ class Passwords(BaseFramelessWindow):
 
         self.hlayout = QHBoxLayout()
         self.passwords = BodyLabel(self)
-        self.passwords.setText("Passwords: ")
+        self.passwords.setText("Password: ")
         self.hlayout.addWidget(self.passwords)
 
         self.passwords_lineEdit = PasswordLineEdit(self)
