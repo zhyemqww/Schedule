@@ -45,7 +45,7 @@ class CellComponents(LineEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.state = "Reset"
-        # self.setEnabled(False)
+        self.setReadOnly(True)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
 
     def mousePressEvent(self, event):
@@ -191,6 +191,7 @@ class CellComponents(LineEdit):
                 border-radius: 5px;
                 /* font: 14px "Segoe UI", "Microsoft YaHei"; */
                 padding: 0px 10px;
+                selection-color: black;
                 selection-background-color: {color};
                 }}
 
