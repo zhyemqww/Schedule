@@ -47,7 +47,7 @@ class MainWindow(BaseFramelessWindow):
         self.setWindowTitle("Schedule")
         self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon.svg")))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
-        self.resize(800, 700)
+        self.resize(800, 740)
         self.setup_ui()
 
     def setup_ui(self):
