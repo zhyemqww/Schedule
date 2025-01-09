@@ -9,7 +9,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QVBoxLayout, QHeaderView, QHBoxLayout
-from qfluentwidgets import PushButton, ToggleButton
+from qfluentwidgets import PushButton, ToggleButton, PrimaryPushButton
 from qfluentwidgets.components.widgets import TableWidget
 
 from base_frameless_window import BaseFramelessWindow
@@ -32,6 +32,7 @@ class MainWindow(BaseFramelessWindow):
 
     def __init__(self):
         super().__init__()
+        self.btn_hlayout = None
         self.last_btn = None
         self.passwords = None
         self.layout = None
@@ -45,9 +46,9 @@ class MainWindow(BaseFramelessWindow):
         self.finished_button = None
 
         self.setWindowTitle("Schedule")
-        self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon.svg")))
+        self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon_1.svg")))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
-        self.resize(800, 740)
+        self.resize(800, 760)
         self.setup_ui()
 
     def setup_ui(self):
@@ -65,7 +66,7 @@ class MainWindow(BaseFramelessWindow):
 
         vertical_header = [f"第{i}周" for i in range(1, table.shape[0] + 1)]
         self.table_widget.setVerticalHeaderLabels(vertical_header)
-        self.table_widget.setHorizontalHeaderLabels(["" for _ in range(1, table.shape[1] + 1)])
+        self.table_widget.setHorizontalHeaderLabels(["" if i == 0 else f"Person {i}" for i in range(1, table.shape[1]+ 1)])
 
         self.table_widget.setBorderVisible(True)
         self.table_widget.setBorderRadius(8)
@@ -126,14 +127,24 @@ class MainWindow(BaseFramelessWindow):
 
         self.layout.addLayout(self.hlayout)
 
+        self.btn_hlayout = QHBoxLayout()
         # add save button
-        save_push_button = PushButton(self)
+        save_push_button = PrimaryPushButton(self)
         save_push_button.setText("Save")
         save_push_button.clicked.connect(self.save)
-        self.layout.addWidget(save_push_button)
+
+        # add reset button
+        reset_push_button = PushButton(self)
+        reset_push_button.setText("Reset")
+        reset_push_button.clicked.connect(self.reset)
+
+        self.btn_hlayout.addWidget(reset_push_button)
+        self.btn_hlayout.addWidget(save_push_button)
+
+        self.layout.addLayout(self.btn_hlayout)
 
         self.layout.setContentsMargins(10, 10, 10, 10)
-        self.layout.setSpacing(10)
+        self.layout.setSpacing(20)
 
         self.setLayout(self.layout)
 
@@ -197,6 +208,14 @@ class MainWindow(BaseFramelessWindow):
         self.passwords = Passwords(data)
         self.passwords.closed.connect(self.close)  # Connect the child window close signal to the main window close
         self.passwords.show()
+
+    def reset(self):
+        """
+        Reset the state of the table.
+        """
+        for cell in self.table_widget.findChildren(Cell):
+            cell.cell.state = "Reset"
+            cell.cell.recover()
 
     def get_state(self) -> list:
         """Get the state of the table."""
