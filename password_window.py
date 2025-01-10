@@ -60,7 +60,7 @@ class Passwords(BaseFramelessWindow):
 
     def save(self):
         passwords = self.passwords_lineEdit.text()
-        if passwords == "Dicp1809":
+        if passwords == "Dicp@1809@zhyemqww":
             self.data.to_csv(PathUtils.get_resource_path("asset/state.csv"), header=None, index=None)
             self.closed.emit()  # 发出关闭信号
             self.close()
