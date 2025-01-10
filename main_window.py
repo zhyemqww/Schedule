@@ -8,7 +8,7 @@
 import pandas as pd
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QVBoxLayout, QHeaderView, QHBoxLayout
+from PySide6.QtWidgets import QVBoxLayout, QHeaderView, QHBoxLayout, QTableWidget
 from qfluentwidgets import PushButton, ToggleButton, PrimaryPushButton
 from qfluentwidgets.components.widgets import TableWidget
 
@@ -24,11 +24,28 @@ class MainWindow(BaseFramelessWindow):
         "Reset": "rgba(255, 255, 255, 0.7)",
         "This Week": "rgba(237, 125, 49, 0.7)",
         "Next Week": "rgba(255, 217, 102, 0.7)",
-        "Week After Next": "rgba(197, 224, 180, 0.7)",
+        "Week After Next": "rgba(197, 190, 180, 0.7)",
         "Missing": "rgba(207, 213, 234, 0.7)",
         "Skip": "rgba(68, 114, 196, 0.7)",
         "Finished": "rgba(65, 200, 40, 0.7)",
+
+        "Reset_highlight": "rgba(255, 255, 255, 1)",
+        "This Week_highlight": "rgba(237, 125, 49, 1)",
+        "Next Week_highlight": "rgba(255, 217, 102, 1)",
+        "Week After Next_highlight": "rgba(197, 190, 180, 1)",
+        "Missing_highlight": "rgba(207, 213, 234, 1)",
+        "Skip_highlight": "rgba(68, 114, 196, 1)",
+        "Finished_highlight": "rgba(65, 200, 40, 1)",
+
+        "Reset_downplay": "rgba(255, 255, 255, 0.2)",
+        "This Week_downplay": "rgba(237, 125, 49, 0.2)",
+        "Next Week_downplay": "rgba(255, 217, 102, 0.2)",
+        "Week After Next_downplay": "rgba(197, 190, 180, 0.2)",
+        "Missing_downplay": "rgba(207, 213, 234, 0.2)",
+        "Skip_downplay": "rgba(68, 114, 196, 0.2)",
+        "Finished_downplay": "rgba(65, 200, 40, 0.2)",
     }
+
 
     def __init__(self):
         super().__init__()
@@ -70,6 +87,7 @@ class MainWindow(BaseFramelessWindow):
 
         self.table_widget.setBorderVisible(True)
         self.table_widget.setBorderRadius(8)
+        self.table_widget.setSelectionMode(QTableWidget.SelectionMode.NoSelection)
 
         # fill the table with data
         for row_index, row in table.iterrows():
@@ -85,27 +103,27 @@ class MainWindow(BaseFramelessWindow):
         self.this_button = ToggleButton(self)
         self.this_button.toggled.connect(self.highlight)
         self.this_button.setText("This Week")
-        self.this_button.setStyleSheet(self.set_style("This Week"))
+        self.this_button.setStyleSheet(self.generate_default_style("This Week"))
 
         self.next_button = ToggleButton(self)
         self.next_button.toggled.connect(self.highlight)
         self.next_button.setText("Next Week")
-        self.next_button.setStyleSheet(self.set_style("Next Week"))
+        self.next_button.setStyleSheet(self.generate_default_style("Next Week"))
 
         self.week_after_next_button = ToggleButton(self)
         self.week_after_next_button.toggled.connect(self.highlight)
         self.week_after_next_button.setText("Week After Next")
-        self.week_after_next_button.setStyleSheet(self.set_style("Week After Next"))
+        self.week_after_next_button.setStyleSheet(self.generate_default_style("Week After Next"))
 
         self.missing_button = ToggleButton(self)
         self.missing_button.toggled.connect(self.highlight)
         self.missing_button.setText("Missing")
-        self.missing_button.setStyleSheet(self.set_style("Missing"))
+        self.missing_button.setStyleSheet(self.generate_default_style("Missing"))
 
         self.skip_button = ToggleButton(self)
         self.skip_button.toggled.connect(self.highlight)
         self.skip_button.setText("Skip")
-        self.skip_button.setStyleSheet(self.set_style("Skip"))
+        self.skip_button.setStyleSheet(self.generate_default_style("Skip"))
 
         # self.reset_button = ToggleButton(self)
         # self.reset_button.toggled.connect(self.highlight)
@@ -115,7 +133,7 @@ class MainWindow(BaseFramelessWindow):
         self.finished_button = ToggleButton(self)
         self.finished_button.toggled.connect(self.highlight)
         self.finished_button.setText("Finished")
-        self.finished_button.setStyleSheet(self.set_style("Finished"))
+        self.finished_button.setStyleSheet(self.generate_default_style("Finished"))
 
         self.hlayout.addWidget(self.this_button)
         self.hlayout.addWidget(self.next_button)
@@ -173,7 +191,20 @@ class MainWindow(BaseFramelessWindow):
             else:
                 cell.cell.recover()
 
-    def set_style(self, state) -> str:
+        for btn in [self.this_button, self.next_button, self.week_after_next_button, self.missing_button, self.skip_button, self.finished_button]:
+            if btn != sender:
+                state = btn.text()
+                if sender.isChecked():
+                    style = self.generate_downplay_style(state)
+                    btn.setStyleSheet(style)
+                else:
+                    style = self.generate_default_style(state)
+                    btn.setStyleSheet(style)
+
+    def generate_default_style(self, state) -> str:
+
+        state_highlight = f"{state}_highlight"
+        state_downplay = f"{state}_downplay"
 
         style = f"""
             PushButton, ToolButton, ToggleButton, ToggleToolButton {{
@@ -189,13 +220,43 @@ class MainWindow(BaseFramelessWindow):
             
             PushButton:pressed, ToolButton:pressed, ToggleButton:pressed, ToggleToolButton:pressed {{
             color: rgba(0, 0, 0, 0.63);
-            background: rgba(249, 249, 249, 0.3);
+            background: {self.COLOR_MAP[state_downplay]};
             border-bottom: 1px solid rgba(0, 0, 0, 0.073);
             }}
             ToggleButton:checked,
             ToggleToolButton:checked {{
-                color: {self.COLOR_MAP[state]};
-                background-color: white;
+                color: black;
+                background-color: {self.COLOR_MAP[state_highlight]};
+            }}
+        """
+        return style
+
+    def generate_downplay_style(self, state) -> str:
+
+        state_highlight = f"{state}_highlight"
+        state_downplay = f"{state}_downplay"
+
+        style = f"""
+            PushButton, ToolButton, ToggleButton, ToggleToolButton {{
+            color: black;
+            background: {self.COLOR_MAP[state_downplay]};
+            border: 1px solid rgba(0, 0, 0, 0.073);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.183);
+            border-radius: 5px;
+            /* font: 14px 'Segoe UI', 'Microsoft YaHei'; */
+            padding: 5px 12px 6px 12px;
+            outline: none;
+            }}
+
+            PushButton:pressed, ToolButton:pressed, ToggleButton:pressed, ToggleToolButton:pressed {{
+            color: rgba(0, 0, 0, 0.63);
+            background: {self.COLOR_MAP[state_downplay]};
+            border-bottom: 1px solid rgba(0, 0, 0, 0.073);
+            }}
+            ToggleButton:checked,
+            ToggleToolButton:checked {{
+                color: black;
+                background-color: {self.COLOR_MAP[state_highlight]};
             }}
         """
         return style
