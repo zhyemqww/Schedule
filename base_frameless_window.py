@@ -6,8 +6,8 @@
 # @Project  : PELSA_Decipher_1.0
 # @Desc     :
 
-from qfluentwidgets.components.widgets.frameless_window import FramelessWindow
 from qframelesswindow import StandardTitleBar
+from qframelesswindow import FramelessWindow
 
 
 class BaseFramelessWindow(FramelessWindow):
