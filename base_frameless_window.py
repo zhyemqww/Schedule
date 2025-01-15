@@ -5,7 +5,8 @@
 # @File     : base_frameless_window
 # @Project  : PELSA_Decipher_1.0
 # @Desc     :
-
+from PySide6.QtGui import QScreen
+from PySide6.QtWidgets import QApplication
 from qframelesswindow import StandardTitleBar
 from qframelesswindow import FramelessWindow
 
@@ -52,4 +53,19 @@ class BaseFramelessWindow(FramelessWindow):
         }        
         """)
 
-        # self.titleBar.iconLabel.hide()
+    def showEvent(self, event):
+        """
+        Override the showEvent method to center the window when it is shown.
+        """
+        super().showEvent(event)
+        self.center_window()
+
+    def center_window(self):
+        """
+        Center the window on the screen.
+        """
+        # move window frame to center the window
+        main_screen = QScreen.availableGeometry(QApplication.primaryScreen())
+        x = (main_screen.width() - self.width()) // 2
+        y = (main_screen.height() - self.height()) // 2
+        self.move(x, y)
