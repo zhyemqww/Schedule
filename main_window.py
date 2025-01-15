@@ -9,7 +9,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QVBoxLayout, QHeaderView, QHBoxLayout, QTableWidget
-from qfluentwidgets import PushButton, ToggleButton, PrimaryPushButton
+from qfluentwidgets import PushButton, ToggleButton, PrimaryPushButton, FluentIcon
 from qfluentwidgets.components.widgets import TableWidget
 
 from base_frameless_window import BaseFramelessWindow
@@ -62,7 +62,11 @@ class MainWindow(BaseFramelessWindow):
         self.skip_button = None
         self.finished_button = None
 
-        self.setWindowTitle("Schedule")
+        self.back_data_dict = {}
+        self.back_data = None
+        self.index = 0
+
+        self.setWindowTitle("Schedule v1.0.1")
         self.setWindowIcon(QIcon(PathUtils.get_resource_path("asset/icon_1.svg")))
         self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint)
         self.resize(800, 760)
@@ -159,9 +163,17 @@ class MainWindow(BaseFramelessWindow):
         # add next button
         next_push_button = PushButton(self)
         next_push_button.setText("Next")
+        next_push_button.setIcon(FluentIcon.RIGHT_ARROW)
         next_push_button.clicked.connect(self.next)
 
+        # add back button
+        back_push_button = PushButton(self)
+        back_push_button.setText("Back")
+        back_push_button.setIcon(FluentIcon.LEFT_ARROW)
+        back_push_button.clicked.connect(self.back)
+
         self.btn_hlayout.addWidget(reset_push_button)
+        self.btn_hlayout.addWidget(back_push_button)
         self.btn_hlayout.addWidget(next_push_button)
         self.btn_hlayout.addWidget(save_push_button)
 
@@ -305,6 +317,11 @@ class MainWindow(BaseFramelessWindow):
         next_next_week = []
         next_week_after_next = []
         data = pd.DataFrame(self.get_state())
+
+        self.back_data = data.copy()
+        self.back_data_dict[self.index] = self.back_data
+        self.index += 1
+
         for row in range(data.shape[0]):
             for col in range(data.shape[1]):
                 if data.iloc[row, col] == "This Week":
@@ -334,3 +351,15 @@ class MainWindow(BaseFramelessWindow):
                 if not pd.isna(cell.text):
                     cell.cell.state = next_data.iloc[row, col]
                     cell.cell.recover()
+
+    def back(self):
+        # update the table
+        if self.index != 0:
+            back_data = self.back_data_dict[self.index - 1]
+            self.index -= 1
+            for row in range(self.table_widget.rowCount()):
+                for col in range(self.table_widget.columnCount()):
+                    cell = self.table_widget.cellWidget(row, col)
+                    if not pd.isna(cell.text):
+                        cell.cell.state = back_data.iloc[row, col]
+                        cell.cell.recover()
