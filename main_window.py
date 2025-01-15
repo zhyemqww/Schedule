@@ -156,7 +156,13 @@ class MainWindow(BaseFramelessWindow):
         reset_push_button.setText("Reset")
         reset_push_button.clicked.connect(self.reset)
 
+        # add next button
+        next_push_button = PushButton(self)
+        next_push_button.setText("Next")
+        next_push_button.clicked.connect(self.next)
+
         self.btn_hlayout.addWidget(reset_push_button)
+        self.btn_hlayout.addWidget(next_push_button)
         self.btn_hlayout.addWidget(save_push_button)
 
         self.layout.addLayout(self.btn_hlayout)
@@ -288,3 +294,43 @@ class MainWindow(BaseFramelessWindow):
                 row_state.append(cell.cell.state)
             state.append(row_state)
         return state
+
+    def next(self):
+        """
+        Update the state of the table.
+        """
+        # get the current state and find the cells that need to be updated
+        finishing = []
+        next_this_week = []
+        next_next_week = []
+        next_week_after_next = []
+        data = pd.DataFrame(self.get_state())
+        for row in range(data.shape[0]):
+            for col in range(data.shape[1]):
+                if data.iloc[row, col] == "This Week":
+                    finishing.append((row, col))
+                elif data.iloc[row, col] == "Next Week":
+                    next_this_week.append((row, col))
+                elif data.iloc[row, col] == "Week After Next":
+                    next_next_week.append((row, col))
+                    if row + 1 < data.shape[0]:
+                        next_week_after_next.append((row+1, col))
+
+        # update the state
+        next_data = data.copy()
+        for row, col in finishing:
+            next_data.iloc[row, col] = "Finished"
+        for row, col in next_this_week:
+            next_data.iloc[row, col] = "This Week"
+        for row, col in next_next_week:
+            next_data.iloc[row, col] = "Next Week"
+        for row, col in next_week_after_next:
+            next_data.iloc[row, col] = "Week After Next"
+
+        # update the table
+        for row in range(self.table_widget.rowCount()):
+            for col in range(self.table_widget.columnCount()):
+                cell = self.table_widget.cellWidget(row, col)
+                if not pd.isna(cell.text):
+                    cell.cell.state = next_data.iloc[row, col]
+                    cell.cell.recover()
