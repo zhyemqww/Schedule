@@ -16,36 +16,10 @@ from base_frameless_window import BaseFramelessWindow
 from cell import Cell
 from password_window import Passwords
 from path_utils import PathUtils
+from style import StyleMixIn
 
 
-class MainWindow(BaseFramelessWindow):
-
-    COLOR_MAP = {
-        "Reset": "rgba(255, 255, 255, 0.7)",
-        "This Week": "rgba(237, 125, 49, 0.7)",
-        "Next Week": "rgba(255, 217, 102, 0.7)",
-        "Week After Next": "rgba(197, 224, 180, 0.7)",
-        "Missing": "rgba(207, 213, 234, 0.7)",
-        "Skip": "rgba(68, 114, 196, 0.7)",
-        "Finished": "rgba(65, 200, 40, 0.7)",
-
-        "Reset_highlight": "rgba(255, 255, 255, 1)",
-        "This Week_highlight": "rgba(237, 125, 49, 1)",
-        "Next Week_highlight": "rgba(255, 217, 102, 1)",
-        "Week After Next_highlight": "rgba(197, 224, 180, 1)",
-        "Missing_highlight": "rgba(207, 213, 234, 1)",
-        "Skip_highlight": "rgba(68, 114, 196, 1)",
-        "Finished_highlight": "rgba(65, 200, 40, 1)",
-
-        "Reset_downplay": "rgba(255, 255, 255, 0.2)",
-        "This Week_downplay": "rgba(237, 125, 49, 0.2)",
-        "Next Week_downplay": "rgba(255, 217, 102, 0.2)",
-        "Week After Next_downplay": "rgba(197, 224, 180, 0.2)",
-        "Missing_downplay": "rgba(207, 213, 234, 0.2)",
-        "Skip_downplay": "rgba(68, 114, 196, 0.5)",
-        "Finished_downplay": "rgba(65, 200, 40, 0.5)",
-    }
-
+class MainWindow(StyleMixIn, BaseFramelessWindow):
 
     def __init__(self):
         super().__init__()
@@ -58,8 +32,8 @@ class MainWindow(BaseFramelessWindow):
         self.this_button = None
         self.next_button = None
         self.week_after_next_button = None
-        self.missing_button = None
-        self.skip_button = None
+        self.incomplete_button = None
+        self.skipped_button = None
         self.finished_button = None
 
         self.back_data_dict = {}
@@ -85,7 +59,7 @@ class MainWindow(BaseFramelessWindow):
         self.table_widget.setRowCount(table.shape[0])
         self.table_widget.setColumnCount(table.shape[1])
 
-        vertical_header = [f"第{i}周" for i in range(1, table.shape[0] + 1)]
+        vertical_header = [f"Week {i}" for i in range(1, table.shape[0] + 1)]
         self.table_widget.setVerticalHeaderLabels(vertical_header)
         self.table_widget.setHorizontalHeaderLabels(["" if i == 0 else f"Person {i}" for i in range(1, table.shape[1]+ 1)])
 
@@ -119,15 +93,15 @@ class MainWindow(BaseFramelessWindow):
         self.week_after_next_button.setText("Week After Next")
         self.week_after_next_button.setStyleSheet(self.generate_default_style("Week After Next"))
 
-        self.missing_button = ToggleButton(self)
-        self.missing_button.toggled.connect(self.highlight)
-        self.missing_button.setText("Missing")
-        self.missing_button.setStyleSheet(self.generate_default_style("Missing"))
+        self.incomplete_button = ToggleButton(self)
+        self.incomplete_button.toggled.connect(self.highlight)
+        self.incomplete_button.setText("Incomplete")
+        self.incomplete_button.setStyleSheet(self.generate_default_style("Incomplete"))
 
-        self.skip_button = ToggleButton(self)
-        self.skip_button.toggled.connect(self.highlight)
-        self.skip_button.setText("Skip")
-        self.skip_button.setStyleSheet(self.generate_default_style("Skip"))
+        self.skipped_button = ToggleButton(self)
+        self.skipped_button.toggled.connect(self.highlight)
+        self.skipped_button.setText("Skipped")
+        self.skipped_button.setStyleSheet(self.generate_default_style("Skipped"))
 
         # self.reset_button = ToggleButton(self)
         # self.reset_button.toggled.connect(self.highlight)
@@ -142,8 +116,8 @@ class MainWindow(BaseFramelessWindow):
         self.hlayout.addWidget(self.this_button)
         self.hlayout.addWidget(self.next_button)
         self.hlayout.addWidget(self.week_after_next_button)
-        self.hlayout.addWidget(self.missing_button)
-        self.hlayout.addWidget(self.skip_button)
+        self.hlayout.addWidget(self.incomplete_button)
+        self.hlayout.addWidget(self.skipped_button)
         # self.hlayout.addWidget(self.reset_button)
         self.hlayout.addWidget(self.finished_button)
 
@@ -209,7 +183,7 @@ class MainWindow(BaseFramelessWindow):
             else:
                 cell.cell.recover()
 
-        for btn in [self.this_button, self.next_button, self.week_after_next_button, self.missing_button, self.skip_button, self.finished_button]:
+        for btn in [self.this_button, self.next_button, self.week_after_next_button, self.incomplete_button, self.skipped_button, self.finished_button]:
             if btn != sender:
                 state = btn.text()
                 if sender.isChecked():

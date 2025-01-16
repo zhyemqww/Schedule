@@ -12,41 +12,17 @@ from PySide6.QtWidgets import QWidget, QHBoxLayout
 from qfluentwidgets import LineEdit, RoundMenu, Action
 
 from path_utils import PathUtils
+from style import StyleMixIn
 
 
-class CellComponents(LineEdit):
-
-    COLOR_MAP = {
-        "Reset": "rgba(255, 255, 255, 0.7)",
-        "This Week": "rgba(237, 125, 49, 0.7)",
-        "Next Week": "rgba(255, 217, 102, 0.7)",
-        "Week After Next": "rgba(197, 224, 180, 0.7)",
-        "Missing": "rgba(207, 213, 234, 0.7)",
-        "Skip": "rgba(68, 114, 196, 0.7)",
-        "Finished": "rgba(65, 200, 40, 0.7)",
-
-        "Reset_highlight": "rgba(255, 255, 255, 1)",
-        "This Week_highlight": "rgba(237, 125, 49, 1)",
-        "Next Week_highlight": "rgba(255, 217, 102, 1)",
-        "Week After Next_highlight": "rgba(197, 224, 180, 1)",
-        "Missing_highlight": "rgba(207, 213, 234, 1)",
-        "Skip_highlight": "rgba(68, 114, 196, 1)",
-        "Finished_highlight": "rgba(65, 200, 40, 1)",
-
-        "Reset_downplay": "rgba(255, 255, 255, 0)",
-        "This Week_downplay": "rgba(237, 125, 49, 0)",
-        "Next Week_downplay": "rgba(255, 217, 102, 0)",
-        "Week After Next_downplay": "rgba(197, 224, 180, 0)",
-        "Missing_downplay": "rgba(207, 213, 234, 0)",
-        "Skip_downplay": "rgba(68, 114, 196, 0)",
-        "Finished_downplay": "rgba(65, 200, 40, 0)",
-    }
+class CellComponents(StyleMixIn, LineEdit):
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.state = "Reset"
         self.setReadOnly(True)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignVCenter)
+        self.setMinimumWidth(160)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.RightButton:
@@ -59,16 +35,16 @@ class CellComponents(LineEdit):
         this_week_action = Action(QIcon(PathUtils.get_resource_path("asset/this_week.svg")), "This Week", self)
         next_week_action = Action(QIcon(PathUtils.get_resource_path("asset/next_week.svg")), "Next Week", self)
         week_after_next_action = Action(QIcon(PathUtils.get_resource_path("asset/nn_week.svg")), "Week After Next", self)
-        missing_action = Action(QIcon(PathUtils.get_resource_path("asset/miss.svg")), "Missing", self)
-        skip_action = Action(QIcon(PathUtils.get_resource_path("asset/skip.svg")), "Skip", self)
+        incomplete_action = Action(QIcon(PathUtils.get_resource_path("asset/miss.svg")), "Incomplete", self)
+        skipped_action = Action(QIcon(PathUtils.get_resource_path("asset/skip.svg")), "Skipped", self)
         reset_action = Action(QIcon(PathUtils.get_resource_path("asset/reset.svg")), "Reset", self)
         finished_action = Action(QIcon(PathUtils.get_resource_path("asset/finished.svg")), "Finished", self)
 
         this_week_action.triggered.connect(self._this_week)
         next_week_action.triggered.connect(self._next_week)
         week_after_next_action.triggered.connect(self._week_after_next)
-        missing_action.triggered.connect(self._missing)
-        skip_action.triggered.connect(self._skip)
+        incomplete_action.triggered.connect(self._incomplete)
+        skipped_action.triggered.connect(self._skipped)
         reset_action.triggered.connect(self._reset)
         finished_action.triggered.connect(self._finished)
 
@@ -76,8 +52,8 @@ class CellComponents(LineEdit):
         menu.addAction(this_week_action)
         menu.addAction(next_week_action)
         menu.addAction(week_after_next_action)
-        menu.addAction(missing_action)
-        menu.addAction(skip_action)
+        menu.addAction(incomplete_action)
+        menu.addAction(skipped_action)
         menu.addAction(reset_action)
         menu.addAction(finished_action)
 
@@ -96,13 +72,13 @@ class CellComponents(LineEdit):
         self.state = "Week After Next"
         self.setStyleSheet(self.set_style(self.COLOR_MAP["Week After Next"]))
 
-    def _missing(self):
-        self.state = "Missing"
-        self.setStyleSheet(self.set_style(self.COLOR_MAP["Missing"]))
+    def _incomplete(self):
+        self.state = "Incomplete"
+        self.setStyleSheet(self.set_style(self.COLOR_MAP["Incomplete"]))
 
-    def _skip(self):
-        self.state = "Skip"
-        self.setStyleSheet(self.set_style(self.COLOR_MAP["Skip"]))
+    def _skipped(self):
+        self.state = "Skipped"
+        self.setStyleSheet(self.set_style(self.COLOR_MAP["Skipped"]))
 
     def _reset(self):
         self.state = "Reset"
@@ -124,10 +100,10 @@ class CellComponents(LineEdit):
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Next Week_highlight"]))
         elif self.state == "Week After Next":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Week After Next_highlight"]))
-        elif self.state == "Missing":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Missing_highlight"]))
-        elif self.state == "Skip":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skip_highlight"]))
+        elif self.state == "Incomplete":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Incomplete_highlight"]))
+        elif self.state == "Skipped":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skipped_highlight"]))
         elif self.state == "Reset":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Reset_highlight"]))
         else:
@@ -145,10 +121,10 @@ class CellComponents(LineEdit):
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Next Week_downplay"]))
         elif self.state == "Week After Next":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Week After Next_downplay"]))
-        elif self.state == "Missing":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Missing_downplay"]))
-        elif self.state == "Skip":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skip_downplay"]))
+        elif self.state == "Incomplete":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Incomplete_downplay"]))
+        elif self.state == "Skipped":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skipped_downplay"]))
         elif self.state == "Reset":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Reset_downplay"]))
         else:
@@ -166,10 +142,10 @@ class CellComponents(LineEdit):
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Next Week"]))
         elif self.state == "Week After Next":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Week After Next"]))
-        elif self.state == "Missing":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Missing"]))
-        elif self.state == "Skip":
-            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skip"]))
+        elif self.state == "Incomplete":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Incomplete"]))
+        elif self.state == "Skipped":
+            self.setStyleSheet(self.set_style(self.COLOR_MAP["Skipped"]))
         elif self.state == "Reset":
             self.setStyleSheet(self.set_style(self.COLOR_MAP["Reset"]))
         else:
