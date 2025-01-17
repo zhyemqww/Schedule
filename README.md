@@ -17,4 +17,5 @@ With this applet, you can:
     By clicking the Save button at the bottom of the table, you can save the current status to the state.csv file.
 
 Example:
+
 ![Demo_Schedule](https://github.com/user-attachments/assets/0d265eeb-412d-4b46-94d4-6d13b7fa32e0)
