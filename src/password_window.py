@@ -10,8 +10,8 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout
 from qfluentwidgets import BodyLabel, PasswordLineEdit, PushButton
 
-from base_frameless_window import BaseFramelessWindow
-from path_utils import PathUtils
+from src.base_frameless_window import BaseFramelessWindow
+from src.path_utils import PathUtils
 
 
 class Passwords(BaseFramelessWindow):
@@ -61,7 +61,7 @@ class Passwords(BaseFramelessWindow):
     def save(self):
         passwords = self.passwords_lineEdit.text()
         if passwords == "zhyemqww":
-            self.data.to_csv(PathUtils.get_resource_path("asset/state.csv"), header=None, index=None)
+            self.data.to_csv(PathUtils.get_resource_path("../asset/state.csv"), header=None, index=None)
             self.closed.emit()  # 发出关闭信号
             self.close()
 

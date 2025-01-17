@@ -11,8 +11,8 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QHBoxLayout
 from qfluentwidgets import LineEdit, RoundMenu, Action
 
-from path_utils import PathUtils
-from style import StyleMixIn
+from src.path_utils import PathUtils
+from src.style import StyleMixIn
 
 
 class CellComponents(StyleMixIn, LineEdit):

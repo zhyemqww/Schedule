@@ -12,11 +12,11 @@ from PySide6.QtWidgets import QVBoxLayout, QHeaderView, QHBoxLayout, QTableWidge
 from qfluentwidgets import PushButton, ToggleButton, PrimaryPushButton, FluentIcon
 from qfluentwidgets.components.widgets import TableWidget
 
-from base_frameless_window import BaseFramelessWindow
-from cell import Cell
-from password_window import Passwords
-from path_utils import PathUtils
-from style import StyleMixIn
+from src.base_frameless_window import BaseFramelessWindow
+from src.cell import Cell
+from src.password_window import Passwords
+from src.path_utils import PathUtils
+from src.style import StyleMixIn
 
 
 class MainWindow(StyleMixIn, BaseFramelessWindow):
